@@ -12,6 +12,7 @@
 static const void *KClickBlock = @"clickBlock";
 static const void *KEmptyText = @"emptyText";
 static const void *KOffSet = @"offset";
+static const void *Kimage = @"emptyImage";
 
 
 
@@ -50,6 +51,16 @@ static const void *KOffSet = @"offset";
 }
 
 
+- (UIImage *)emptyImage{
+    return objc_getAssociatedObject(self, &Kimage);
+}
+
+- (void)setEmptyImage:(UIImage *)emptyImage{
+    objc_setAssociatedObject(self, &Kimage, emptyImage, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+
+
 - (void)setupEmptyData:(ClickBlock)clickBlock{
     self.clickBlock = clickBlock;
     self.emptyDataSetSource = self;
@@ -84,6 +95,21 @@ static const void *KOffSet = @"offset";
 }
 
 
+- (void)setupEmptyDataText:(NSString *)text verticalOffset:(CGFloat)offset emptyImage:(UIImage *)image tapBlock:(ClickBlock)clickBlock{
+
+    self.emptyText = text;
+    self.offset = offset;
+    self.emptyImage = image;
+    self.clickBlock = clickBlock;
+    
+    self.emptyDataSetSource = self;
+    if (clickBlock) {
+        self.emptyDataSetDelegate = self;
+    }
+
+}
+
+
 
 #pragma mark - DZNEmptyDataSetSource
 
@@ -104,7 +130,7 @@ static const void *KOffSet = @"offset";
 
 // 空白页的图片
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView{
-    return [UIImage imageNamed:@"mine"];
+    return self.emptyImage?:[UIImage imageNamed:@"mine"];
 }
 
 //是否允许滚动，默认NO
