@@ -15,11 +15,12 @@ typedef void(^ClickBlock)();
 @interface UIScrollView (DREmptyDataSet)<DZNEmptyDataSetSource,DZNEmptyDataSetDelegate>
 
 @property (nonatomic) ClickBlock clickBlock;                // 点击事件
-@property (nonatomic, strong) NSString *offset;             // 垂直偏移量
+@property (nonatomic, assign) CGFloat offset;             // 垂直偏移量
 @property (nonatomic, strong) NSString *emptyText;          // 空数据显示内容
+
 
 - (void)setupEmptyData:(ClickBlock)clickBlock;
 - (void)setupEmptyDataText:(NSString *)text tapBlock:(ClickBlock)clickBlock;
-- (void)setupEmptyDataText:(NSString *)text verticalOffset:(NSString *)offset tapBlock:(ClickBlock)clickBlock;
+- (void)setupEmptyDataText:(NSString *)text verticalOffset:(CGFloat)offset tapBlock:(ClickBlock)clickBlock;
 
 @end

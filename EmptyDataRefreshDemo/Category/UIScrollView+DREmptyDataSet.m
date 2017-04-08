@@ -13,33 +13,40 @@ static const void *KClickBlock = @"clickBlock";
 static const void *KEmptyText = @"emptyText";
 static const void *KOffSet = @"offset";
 
+
+
 @implementation UIScrollView (DREmptyDataSet)
 
 #pragma mark - Getter Setter
 
 - (ClickBlock)clickBlock{
-    return objc_getAssociatedObject(self, KClickBlock);
+    return objc_getAssociatedObject(self, &KClickBlock);
 }
 
 - (void)setClickBlock:(ClickBlock)clickBlock{
  
-    objc_setAssociatedObject(self, KClickBlock, clickBlock, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    objc_setAssociatedObject(self, &KClickBlock, clickBlock, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
 - (NSString *)emptyText{
-    return objc_getAssociatedObject(self, KEmptyText);
+    return objc_getAssociatedObject(self, &KEmptyText);
 }
 
 - (void)setEmptyText:(NSString *)emptyText{
-    objc_setAssociatedObject(self, KEmptyText, emptyText, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    objc_setAssociatedObject(self, &KEmptyText, emptyText, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
-- (NSString *)offset{
-    return objc_getAssociatedObject(self, KOffSet);
+- (CGFloat)offset{
+    
+    NSNumber *number = objc_getAssociatedObject(self, &KOffSet);
+    return number.floatValue;
 }
 
-- (void)setOffset:(NSString *)offset{
-    objc_setAssociatedObject(self, KOffSet, offset, OBJC_ASSOCIATION_COPY_NONATOMIC);
+- (void)setOffset:(CGFloat)offset{
+    
+    NSNumber *number = [NSNumber numberWithDouble:offset];
+    
+    objc_setAssociatedObject(self, &KOffSet, number, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
 
@@ -64,7 +71,7 @@ static const void *KOffSet = @"offset";
 }
 
 
-- (void)setupEmptyDataText:(NSString *)text verticalOffset:(NSString *)offset tapBlock:(ClickBlock)clickBlock{
+- (void)setupEmptyDataText:(NSString *)text verticalOffset:(CGFloat)offset tapBlock:(ClickBlock)clickBlock{
     
     self.emptyText = text;
     self.offset = offset;
@@ -107,7 +114,7 @@ static const void *KOffSet = @"offset";
 
 // 垂直偏移量
 - (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView{
-    return [self.offset floatValue];
+    return self.offset;
 }
 
 

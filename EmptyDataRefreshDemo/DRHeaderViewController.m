@@ -41,7 +41,7 @@
         [self foot];
     }];
     
-    [self.tabView setupEmptyDataText:nil verticalOffset:@"100" tapBlock:^{
+    [self.tabView setupEmptyDataText:nil verticalOffset:100 tapBlock:^{
         [self head];
     }];
 }
