@@ -11,7 +11,7 @@
 #import "UIScrollView+DRRefresh.h"
 #import "DRHeaderViewController.h"
 
-@interface ViewController ()
+@interface ViewController ()<UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tabView;
 
@@ -30,24 +30,28 @@
         [self foot];
     }];
 
-    [self.tabView setupEmptyDataText:@"点击查看更多" tapBlock:^{
-        
-        NSLog(@"xx");
+    if (@available(iOS 11.0, *)){
+        [[UIScrollView appearanceWhenContainedInInstancesOfClasses:@[[ViewController class]]] setContentInsetAdjustmentBehavior:UIScrollViewContentInsetAdjustmentNever];
+    }else{
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+    
+    [self.tabView setupEmptyDataText:@"点击查看更多" verticalOffset:1 tapBlock:^{
         [self head];
     }];
-
+    
 }
+
 
 - (void) head{
     
-    [self.dataArray removeAllObjects];
+    [self.dataArray removeAllObjects]; 
     
     for (int i = 1; i<6; i++) {
         [self.dataArray addObject:@(i)];
     }
     
     [self.tabView headerEndRefreshing];
-    
     [self.tabView reloadData];
 }
 
@@ -58,12 +62,15 @@
         [self.dataArray addObject:@(i)];
     }
     [self.tabView footerEndRefreshing];
-    
     [self.tabView reloadData];
 }
 
 
 - (IBAction)clearAction:(id)sender {
+    
+    // 防止由于上拉加载多次更多数据   空数据展示丢失的问题
+    [self.tabView setContentOffset:CGPointZero];
+    
     
     [self.dataArray removeAllObjects];
     [self.tabView reloadData];

@@ -40,11 +40,7 @@
     } footerBlock:^{
         [self foot];
     }];
-    
-//    [self.tabView setupEmptyDataText:nil verticalOffset:100 tapBlock:^{
-//        [self head];
-//    }];
-    
+
     
         [self.tabView setupEmptyDataText:nil verticalOffset:100 emptyImage:[UIImage imageNamed:@"emp"] tapBlock:^{
             [self head];
@@ -76,6 +72,8 @@
     
     [self.tabView reloadData];
 }
+
+
 
 
 #pragma mark - UITableViewDataSource

@@ -135,11 +135,12 @@ static const void *Kimage = @"emptyImage";
 
 //是否允许滚动，默认NO
 - (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView {
-    return YES;
+    return NO;
 }
 
 // 垂直偏移量
 - (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView{
+    NSLog(@"offset   %f",self.offset);
     return self.offset;
 }
 
